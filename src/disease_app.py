@@ -15,11 +15,7 @@ model = joblib.load(os.path.join(MODEL_DIR, "GradientBoosting_model.pkl"))
 encoders = joblib.load(os.path.join(MODEL_DIR, "feature_encoders.pkl"))
 target_encoder = joblib.load(os.path.join(MODEL_DIR, "target_encoder.pkl"))
 
-'''
-model = joblib.load("models/GradientBoosting_model.pkl")
-encoders = joblib.load("models/feature_encoders.pkl")
-target_encoder = joblib.load("models/target_encoder.pkl")
-'''
+
 st.title("🩺 Patient Disease Prediction App")
 st.markdown("This AI tool predicts possible diseases based on patient symptoms and vitals.")
 
