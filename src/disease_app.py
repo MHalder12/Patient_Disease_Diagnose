@@ -1,50 +1,9 @@
-'''
-import streamlit as st
-import pandas as pd
-import joblib
 from ui_components import DiseaseUI
-
-# Load model and encoders
-model = joblib.load("models/GradientBoosting_model.pkl")
-encoders = joblib.load("models/feature_encoders.pkl")
-target_encoder = joblib.load("models/target_encoder.pkl")
-
-# Apply custom UI
-DiseaseUI.apply_custom_css()
-
-# Collect inputs
-input_data = DiseaseUI.patient_form(encoders)
-
-# Predict
-if st.button("🔍 Predict Disease"):
-    df = pd.DataFrame([input_data])
-
-    # Replace "None" with neutral/normal values
-    df.replace("None", "Normal", inplace=True)
-
-    # Encode categorical features
-    for col, le in encoders.items():
-        if col in df.columns:
-            df[col] = le.transform(df[col])
-
-    # Make prediction
-    pred_encoded = model.predict(df)[0]
-    predicted_disease = target_encoder.inverse_transform([pred_encoded])[0]
-
-    # Show result
-    if predicted_disease.lower() == "healthy":
-        DiseaseUI.show_result(predicted_disease, healthy=True)
-    else:
-        DiseaseUI.show_result(predicted_disease)
-
-# Footer
-DiseaseUI.show_footer()
-'''
-
 import streamlit as st
 import joblib
 import numpy as np
 import pandas as pd
+DiseaseUI.apply_modern_theme()
 
 # Load trained model and encoders
 model = joblib.load("models/GradientBoosting_model.pkl")
@@ -83,7 +42,23 @@ def is_healthy():
 if st.button("🔍 Predict Disease"):
     if is_healthy():
         predicted_disease = "Healthy"
-        st.success("🩺 The patient appears **Healthy** based on provided values.")
+        st.markdown(
+                    f"""
+                    <div style="
+                    background-color:#d4edda;
+                    border-left:8px solid #155724;
+                    padding:15px;
+                    border-radius:10px;
+                    margin-top:20px;
+                    font-size:20px;
+                    color:#0d2f0d;
+                    font-weight:700;">
+                    🩺 The patient appears <span style="color:#0a3c0a;">Healthy</span> based on provided values.
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                    )
+
     else:
         # Encode categorical inputs
         input_data = {
@@ -103,6 +78,38 @@ if st.button("🔍 Predict Disease"):
         pred_encoded = model.predict(df)[0]
         predicted_disease = target_encoder.inverse_transform([pred_encoded])[0]
 
-        st.success(f"🩸 Predicted Disease: **{predicted_disease}**")
+        st.markdown(
+                    f"""
+                    <div style="
+                    background-color:#d4edda;
+                    border-left:8px solid #155724;
+                    padding:15px;
+                    border-radius:10px;
+                    margin-top:20px;
+                    font-size:20px;
+                    color:#0b2e0b;
+                    font-weight:700;">
+                    🩸 Predicted Disease: <span style="color:#0a3c0a;">{predicted_disease}</span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True  
+                )
 
-    st.info("Note: This prediction is based on trained AI model patterns. Consult a doctor for confirmation.")
+
+    st.markdown(
+    """
+    <div style="
+        background-color:#fff3cd;
+        border-left:8px solid #856404;
+        padding:15px;
+        border-radius:10px;
+        margin-top:20px;
+        font-size:18px;
+        color:#3b2f00;
+        font-weight:700;">
+        ⚠️ <b>Note:</b> This prediction is based on trained AI model patterns.
+        Consult a doctor for confirmation.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
