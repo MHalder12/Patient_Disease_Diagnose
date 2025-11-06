@@ -6,7 +6,7 @@ __pycache__/
 *.pyc
 
 # Ignore model and data artifacts if large
-*.pkl
+
 *.csv
 *.xlsx
 *.zip
