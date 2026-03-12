@@ -11,7 +11,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
 
-model = joblib.load(os.path.join(MODEL_DIR, "GradientBoosting_model.pkl"))
+model = joblib.load(os.path.join(MODEL_DIR, "Random Forest_model.pkl"))
 encoders = joblib.load(os.path.join(MODEL_DIR, "feature_encoders.pkl"))
 target_encoder = joblib.load(os.path.join(MODEL_DIR, "target_encoder.pkl"))
 
