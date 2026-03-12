@@ -4,7 +4,7 @@ scikit-learn
 matplotlib
 seaborn
 joblib
-streamlit
+streamlit==1.32.2
 shap
 imbalanced-learn
 altair==4.2.2
